@@ -15,35 +15,55 @@
     <canvas id="game" height="480" width="640">
          
     </canvas>
+    <button onclick="pause()">pause</button>
+    <button onclick="start()">continue</button>
 
     <script>
         // init
         const canvas = document.getElementById('game');
         context = canvas.getContext("2d");
 
-        window.addEventListener('keydown', movePipes, true);
+        window.addEventListener('keydown', flapBird, true);
 
         let left = 620;
-
-        function movePipes(event) {
-            console.log(left)
-            if (event.keycode === 32) {
-                left = left - 5;
-            }
-
-            drawPipes();
-        }
+        let animate;
 
         function drawPipes() {
+            let height = randomPipeHeight();
             // define to draw stuff
-            context.moveTo(left,50);
-            context.lineTo(left, 300);
+            context.moveTo(left, 0);
+            context.lineTo(left, height);
 
-            context.moveTo(left+50,50);
-            context.lineTo(left+50, 300);
+            context.moveTo(left+50, 0);
+            context.lineTo(left+50, height);
 
             // draw what you have defined
             context.stroke();
+        }
+
+        
+
+        function randomPipeHeight() {
+            let max = context.canvas.height * 0.8;
+            let min = context.canvas.height * 0.2;
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+
+        function flapBird() {
+
+}
+
+        function start() {
+            animate = self.setInterval(function() {
+            context.beginPath();
+            context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+            left = left-5;
+            drawPipes();
+        }, 50);
+        }
+
+        function pause() {
+            animate = clearInterval(animate);
         }
         
     </script>

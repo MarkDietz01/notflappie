@@ -24,19 +24,60 @@
 </head>
 <body style="background-image: url(https://i.imgur.com/xbOA9DR.jpg);">
 <div class="center">
-    <canvas id="game" height="2000" width="4000">
-    <canvas id="leaderboard" height="800" width="1000">
+    <canvas id="game" height="700" width="1000">
+    <canvas id="leaderboard" height="800" width="300">
 </div>
+<button onclick="pause()">pause</button>
+<button onclick="start()">start</button>
 
 
  
 <script>
-// https://imgur.com/a/PZg8zj5
+    const canvas = document.getElementById('game');
+    context = canvas.getContext("2d");
 
+    window.addEventListener('keydown', flapBird, true);
 
+    let left = 620;
+    let animate;
 
+    function drawPipes() {
+        let height = randomPipeHeight();
+        // define to draw stuff
+        context.moveTo(left, 0);
+        context.lineTo(left, height);
 
+        context.moveTo(left+50, 0);
+        context.lineTo(left+50, height);
 
+        // draw what you have defined
+        context.stroke();
+    }
+
+    
+
+    function randomPipeHeight() {
+        let max = context.canvas.height * 0.8;
+        let min = context.canvas.height * 0.2;
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
+    function flapBird() {
+
+    }
+
+    function start() {
+        animate = self.setInterval(function() {
+            context.beginPath();
+            context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+            left = left-5;
+            drawPipes();
+        }, 50);
+    }
+
+    function pause() {
+        animate = clearInterval(animate);
+    }    
 </script>
 </body>
 </html>
