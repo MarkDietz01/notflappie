@@ -20,6 +20,16 @@
             outline: 10px solid gray;
 
         }
+        button {
+            background-color: orange;
+            outline: 3px solid orange;
+            outline-offset: 3px;
+            color: white;
+            padding: 5px 15px;
+            border: none;
+            margin: 10px 30px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body style="background-image: url(https://i.imgur.com/xbOA9DR.jpg);">
@@ -29,6 +39,9 @@
 </div>
 <button onclick="pause()">pause</button>
 <button onclick="start()">start</button>
+
+<img id="pipeTop" src="https://i.imgur.com/xTDRJMm.png" style="display:none;">
+<img id="pipeBot" src="https://i.imgur.com/DeDcqqK.png" style="display:none">
 
 
  
@@ -40,24 +53,41 @@
 
     let left = 620;
     let animate;
+    let pipes = [];
 
     function drawPipes() {
-        let height = randomPipeHeight();
-        // define to draw stuff
-        context.moveTo(left, 0);
-        context.lineTo(left, height);
+        pipes.forEach((pipe, i) => {
+            posY = left + (i * 200);
+            context.moveTo(posY, 0);
+            context.lineTo(posY, pipe.height);
 
-        context.moveTo(left+50, 0);
-        context.lineTo(left+50, height);
+            context.moveTo(posY+50, 0);
+            context.lineTo(posY+50, pipe.height);
 
+            context.moveTo(posY, pipe.height + context.canvas.height * 0.2);
+            context.lineTo(posY, context.canvas.height);
+
+            context.moveTo(posY+50, pipe.height + context.canvas.height * 0.2);
+            context.lineTo(posY+50, context.canvas.height);
+
+            //context.rect(posY, 0, 50, pipe.height);
+            //context.clip();
+            //context.drawImage(document.getElementById('pipeTop'), 0, 0)
+            
+            
+        })
         // draw what you have defined
         context.stroke();
     }
 
-    
+    function generatePipe() {
+        let height = randomPipeHeight();
+        let pipe = { height: height };
+        pipes.push(pipe);
+    }
 
     function randomPipeHeight() {
-        let max = context.canvas.height * 0.8;
+        let max = context.canvas.height * 0.7;
         let min = context.canvas.height * 0.2;
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
@@ -71,6 +101,7 @@
             context.beginPath();
             context.clearRect(0, 0, context.canvas.width, context.canvas.height);
             left = left-5;
+            generatePipe();
             drawPipes();
         }, 50);
     }
