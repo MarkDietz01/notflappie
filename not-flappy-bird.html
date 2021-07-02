@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #game {
+            outline:2px solid grey;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="game" height="480" width="640">
+         
+    </canvas>
+
+    <script>
+        // init
+        const canvas = document.getElementById('game');
+        context = canvas.getContext("2d");
+
+        window.addEventListener('keydown', movePipes, true);
+
+        let left = 620;
+
+        function movePipes(event) {
+            console.log(left)
+            if (event.keycode === 32) {
+                left = left - 5;
+            }
+
+            drawPipes();
+        }
+
+        function drawPipes() {
+            // define to draw stuff
+            context.moveTo(left,50);
+            context.lineTo(left, 300);
+
+            context.moveTo(left+50,50);
+            context.lineTo(left+50, 300);
+
+            // draw what you have defined
+            context.stroke();
+        }
+        
+    </script>
+</body>
+</html>
